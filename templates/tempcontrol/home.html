@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    Hello world!
+    <br /><br />
+
+    Temperature:
+    <div id=''>
+    </div>
+
+
+    <script type="text/javascript">
+
+        var timer = setTimeout(function() {
+            $("#test").load("{% url 'tempcontrol.views.get_temperature' %}");
+        }, 1000);
+
+        $this.data('timer', timer);
+        clearTimeout($(this).data('timer'));
+
+    </script>
+
+{% endblock %}

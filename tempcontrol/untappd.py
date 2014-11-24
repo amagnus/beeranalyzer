@@ -18,11 +18,11 @@ def pull_beer():
     print r.text
 
 
-def beer_search():
-    path = '%s/search/beer%s&q=moinette' % (endpoint, credentials)
+def beer_search(name):
+    path = '%s/search/beer%s&q=%s' % (endpoint, credentials, name)
 
     r = requests.get(path)
     print r.text
 
 
-beer_search()
+beer_search('moinette')
