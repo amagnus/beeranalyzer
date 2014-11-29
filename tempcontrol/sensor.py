@@ -24,11 +24,16 @@ def read_temp():
     equals_pos = lines[1].find('t=')
     if equals_pos != -1:
         temp_string = lines[1][equals_pos+2:]
-        temp_c = float(temp_string) / 1000.0
+        temp_float = float(temp_string)
+        temp_c = float('{0:.2f}'.format(temp_float / 1000.0))
         temp_f = temp_c * 9.0 / 5.0 + 32.0
         return temp_c, temp_f
 
+
+def retrieve_temp():
+    return read_temp()
+
 	
-while True:
-	print(read_temp())	
-	time.sleep(1)
+#while True:
+#    print(read_temp())	
+#    time.sleep(1)

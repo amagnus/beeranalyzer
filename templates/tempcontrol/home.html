@@ -5,19 +5,26 @@
     Hello world!
     <br /><br />
 
+    <form action="blah" method="POST">
+        {% csrf_token %}
+        <input type="text" name="beername">
+        <input type="submit" value="Submit" />
+    </form>
+    <br />
+
     Temperature:
-    <div id=''>
-    </div>
+    <span id='raw-temperature'>
+        {% include 'tempcontrol/get_temperature.html' %}
+    </span>
 
 
     <script type="text/javascript">
-
-        var timer = setTimeout(function() {
-            $("#test").load("{% url 'tempcontrol.views.get_temperature' %}");
-        }, 1000);
-
-        $this.data('timer', timer);
-        clearTimeout($(this).data('timer'));
+        
+        function load_temperature() {
+            $("#raw-temperature").load("{% url 'tempcontrol.views.get_temperature' %}");
+        }
+        
+        var refresh_interval = window.setInterval(load_temperature, 2000);
 
     </script>
 
