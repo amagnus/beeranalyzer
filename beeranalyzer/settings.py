@@ -16,6 +16,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
 
+DEV_MODE = True
+
 UNTAPPD_CLIENT_ID = os.environ['UNTAPPD_CLIENT_ID']
 UNTAPPD_CLIENT_SECRET = os.environ['UNTAPPD_CLIENT_SECRET']
 

@@ -2,8 +2,8 @@
 
 {% block content %}
 
-    Hello world!
-    <br /><br />
+    What are you drinking:
+    <br />
 
     <form action="blah" method="POST">
         {% csrf_token %}
@@ -12,10 +12,13 @@
     </form>
     <br />
 
-    Temperature:
+    Current temperature:
     <span id='raw-temperature'>
         {% include 'tempcontrol/get_temperature.html' %}
     </span>
+    <br /><br />
+
+    Target temperature:
 
 
     <script type="text/javascript">

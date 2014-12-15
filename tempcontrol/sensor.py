@@ -1,13 +1,17 @@
+from django.conf import settings
 import os
 import glob
 import time
 
-os.system('modprobe w1-gpio')
-os.system('modprobe w1-therm')
 
-base_dir = '/sys/bus/w1/devices/'
-device_folder = glob.glob(base_dir + '28*')[0]
-device_file = device_folder + '/w1_slave'
+if settings.DEV_MODE == False:
+    os.system('modprobe w1-gpio')
+    os.system('modprobe w1-therm')
+
+    base_dir = '/sys/bus/w1/devices/'
+    device_folder = glob.glob(base_dir + '28*')[0]
+    device_file = device_folder + '/w1_slave'
+
 
 def read_temp_raw():
     f = open(device_file, 'r')
@@ -31,7 +35,10 @@ def read_temp():
 
 
 def retrieve_temp():
-    return read_temp()
+    if settings.DEV_MODE == True:
+        return "dev mode"
+    else:
+        return read_temp()
 
 	
 #while True:
