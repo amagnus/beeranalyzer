@@ -5,12 +5,15 @@
     What are you drinking:
     <br />
 
-    <form action="blah" method="POST">
-        {% csrf_token %}
-        <input type="text" name="beername">
-        <input type="submit" value="Submit" />
-    </form>
-    <br />
+    <input type="text" id="beer_name">
+    <button onclick='submit_form()'>Submit</button>
+    <br /><br />
+
+    Suggestions:
+    <span id='suggested-names'>
+        {% include 'tempcontrol/beer_suggestions.html' %}
+    </span>
+    <br /><br />
 
     Current temperature:
     <span id='raw-temperature'>
@@ -21,13 +24,45 @@
     Target temperature:
 
 
+
     <script type="text/javascript">
-        
+
         function load_temperature() {
             $("#raw-temperature").load("{% url 'tempcontrol.views.get_temperature' %}");
         }
-        
-        var refresh_interval = window.setInterval(load_temperature, 2000);
+
+        var refresh_interval = window.setInterval(load_temperature(), 2000);
+
+        function submit_form() {
+            $("#suggested-names").load("{% url 'tempcontrol.views.run_autocomplete' %}?q=" + $("#beer_name").val());
+        }
+
+        $("#e7").select2({
+            placeholder: "Search for a repository",
+            minimumInputLength: 3,
+            ajax: {
+                url: "https://api.github.com/search/repositories",
+                dataType: 'json',
+                quietMillis: 250,
+                data: function (term, page) { // page is the one-based page number tracked by Select2
+                    return {
+                        q: term, //search term
+                        page: page // page number
+                    };
+                },
+                results: function (data, page) {
+                    var more = (page * 30) < data.total_count; // whether or not there are more results available
+
+                    // notice we return the value of more so Select2 knows if more results can be loaded
+                    return { results: data.items, more: more };
+                }
+            },
+            formatResult: repoFormatResult, // omitted for brevity, see the source of this page
+            formatSelection: repoFormatSelection, // omitted for brevity, see the source of this page
+            dropdownCssClass: "bigdrop", // apply css that makes the dropdown taller
+            escapeMarkup: function (m) { return m; } // we do not want to escape markup since we are displaying html in results
+        });
+
 
     </script>
 

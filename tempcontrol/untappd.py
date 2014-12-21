@@ -1,6 +1,7 @@
 import requests
-from django.conf import settings
 import os
+import json
+from django.conf import settings
 
 
 endpoint = 'https://api.untappd.com/v4'
@@ -18,11 +19,19 @@ def pull_beer():
     print r.text
 
 
-def beer_search(name):
-    path = '%s/search/beer%s&q=%s' % (endpoint, credentials, name)
+def search_beer(name):
+	path = '%s/search/beer%s&q=%s&sort=checkin&limit=7' % (endpoint, credentials, name)
 
-    r = requests.get(path)
-    print r.text
+	r = requests.get(path)
+	raw = json.loads(r.text)
+
+	suggestions = []
+
+	for item in raw['response']['beers']['items']:
+		suggestions.append(item['beer']['beer_name'])
+
+	return suggestions
 
 
-beer_search('moinette')
+
+#print search_beer('moinette')
